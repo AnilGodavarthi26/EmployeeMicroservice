@@ -17,8 +17,13 @@ jobs:
                 java-version: '17'
                 distribution: 'temurin'
                 cache: maven
-            - name: Build and Test
-              run: cd employee && mvn clean validate compile test test-compile
+            - name: Build and Test & Package
+              run: cd employee && mvn --batch-mode --update-snapshots verify
+            - run: mkdir staging && cp target/*.jar staging
+            - uses: actions/upload-artifact@v4
+              with:
+                name: Package
+                path: staging
     Sonar:
         name: SonarQube Analysis
         runs-on: ubuntu-latest
@@ -46,5 +51,4 @@ jobs:
             - name: Build and analyze
               env:
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-              run: cd employee && mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=AnilGodavarthi26_EmployeeMicroservice
-              
+              run: cd employee && mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage -Dsonar.projectKey=AnilGodavarthi26_EmployeeMicroservice
