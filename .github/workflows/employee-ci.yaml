@@ -33,6 +33,6 @@ jobs:
                 cache: maven
             - name: SonarQube Analysis
               env:
-                SONAR_TOKEN: ${{ secrets.SONAR }}
-              run: cd employee && mvn sonar:sonar -Dsonar.projectKey=employee -Dsonar.organization=anilgodavarthi26 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR }}
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              run: cd employee && mvn sonar:sonar -Dsonar.projectKey=anilgodavarthi26 -Dsonar.organization=anilgodavarthi26 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR }}
               
