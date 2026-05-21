@@ -6,7 +6,7 @@ RUN mvn clean package -DskipTests=false
 EXPOSE 8080
 COPY target/*.jar /app/
 
-FROM openjdk:17-jdk-slim
+FROM openjdk:17-jdk:alpine
 WORKDIR /app
 COPY --from=base /app/target/*.jar /app/
 EXPOSE 8080
