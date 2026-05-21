@@ -16,5 +16,7 @@ jobs:
                 java-version: '17'
                 distribution: 'temurin'
                 cache: maven
-            - name: Build with Maven
+            - name: Change Directory to Employee
+              run: ls cd /employee && mvn -version
+            - name: Build and Test
               run: mvn clean validate compile test test-compile
