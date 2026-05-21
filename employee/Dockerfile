@@ -1,4 +1,4 @@
-FROM ubuntu:latest as base
+FROM ubuntu:latest AS base
 WORKDIR /app
 COPY . .
 RUN apt-get update && apt-get install -y openjdk-17-jdk maven
