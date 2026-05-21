@@ -9,7 +9,7 @@ import com.project.employee.model.Employee;
 import com.project.employee.repository.EmployeeRepository;
 import com.project.employee.service.EmployeeService;
 
-public class EmployeeServiceTest {
+class EmployeeServiceTest {
 
     @Test
     void testGetEmployees() {
