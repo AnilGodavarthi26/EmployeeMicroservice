@@ -18,6 +18,7 @@
 
     <properties>
         <java.version>17</java.version>
+        <sonar.organization>anilgodavarthi26</sonar.organization>
     </properties>
 
     <dependencies>
