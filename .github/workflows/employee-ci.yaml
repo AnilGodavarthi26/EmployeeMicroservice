@@ -5,6 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch: 
 jobs:
     build:
         name: Maven Build and Test
@@ -65,6 +66,6 @@ jobs:
                 image-ref: 'anil/employee:${{ github.sha }}'
                 format: 'table'
                 exit-code: '1'
-                ignore-unfixed: true
+                ignore-unfixed: false
                 vuln-type: 'os,library'
                 severity: 'CRITICAL,HIGH'
