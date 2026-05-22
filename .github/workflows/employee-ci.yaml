@@ -51,11 +51,20 @@ jobs:
               env:
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
               run: cd employee && mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage -Dsonar.projectKey=AnilGodavarthi26_EmployeeMicroservice
-    Image_Build:
+    Image_Build_and_Push_to_Registry:
         name: Employee Microservice Docker Image Build
         runs-on: ubuntu-latest
         needs: [build, Sonar]
         steps:
             - uses: actions/checkout@v6
             - name: Build Docker Image
-              run: cd employee && docker build -t employee:V1 .
+              run: cd employee && docker build -t anil/employee:${{(github.sha)}} .
+            - name: Run Trivy vulnerability scanner
+              uses: aquasecurity/trivy-action@v0.36.0
+              with:
+                image-ref: 'anil/employee:${{ github.sha }}'
+                format: 'table'
+                exit-code: '1'
+                ignore-unfixed: true
+                vuln-type: 'os,library'
+                severity: 'CRITICAL,HIGH'
