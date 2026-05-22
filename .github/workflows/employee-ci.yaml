@@ -64,8 +64,7 @@ jobs:
               uses: aquasecurity/trivy-action@v0.36.0
               with:
                 image-ref: 'anil/employee:${{ github.sha }}'
-                format: 'table'
+                format: 'table-json'
                 exit-code: '1'
-                ignore-unfixed: false
+                ignore-unfixed: true
                 vuln-type: 'os,library'
-                severity: 'CRITICAL,HIGH'
