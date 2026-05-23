@@ -59,11 +59,21 @@ jobs:
         steps:
             - uses: actions/checkout@v6
             - name: Build Docker Image
-              run: cd employee && docker build -t anil/employee:${{(github.sha)}} .
+              run: cd employee && docker build -t ${{vars.DOCKERHUB_USERNAME}}/employee:${{(github.run_number)}} .
+
+            - name: Log in to DockerHub
+              uses: docker/login-action@v2
+              with:
+                username: ${{ vars.DOCKERHUB_USERNAME }}
+                password: ${{ secrets.DOCKERHUB_TOKEN }}
+            
+            - name: Push Image to DockerHub
+              run: docker push ${{vars.DOCKERHUB_USERNAME}}/employee:${{ github.run_number }}
+
             - name: Run Trivy vulnerability scanner
               uses: aquasecurity/trivy-action@v0.36.0
               with:
-                image-ref: 'anil/employee:${{ github.sha }}'
+                image-ref: '${{vars.DOCKERHUB_USERNAME}}/employee:${{ github.run_number }}'
                 format: 'table'
                 exit-code: '0'
                 ignore-unfixed: true
