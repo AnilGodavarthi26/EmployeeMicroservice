@@ -78,3 +78,23 @@ jobs:
                 exit-code: '0' # Specifies the exit code that the Trivy action should return if vulnerabilities are found, allowing the workflow to continue even if vulnerabilities are detected (e.g., exit code 0 means the workflow will not fail due to vulnerabilities).
                 ignore-unfixed: true # Option to ignore vulnerabilities that do not have a fix available, allowing the workflow to focus on actionable vulnerabilities.
                 vuln-type: 'os,library' # Specifies the types of vulnerabilities to scan for, in this case, both operating system and library vulnerabilities will be included in the scan.
+    Deploy_Helm:
+      runs-on: ubuntu-latest
+
+      steps:
+        - uses: actions/checkout@v6
+
+        - name: Create Kind Cluster
+          uses: helm/kind-action@v1
+
+        - name: Install Helm
+          uses: azure/setup-helm@v4
+
+        - name: Deploy Chart
+          run: |
+            helm install employee ./emp
+
+        - name: Verify
+          run: |
+            kubectl get pods
+            kubectl get svc

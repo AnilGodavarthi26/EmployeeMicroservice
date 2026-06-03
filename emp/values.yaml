@@ -1,0 +1,10 @@
+replicaCount: 3
+image:
+  repository: anilgodavarthi26/employee
+  tag: 48
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 8080
