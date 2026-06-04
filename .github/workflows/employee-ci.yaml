@@ -86,7 +86,7 @@ jobs:
                 git config --global user.name "github-actions" git config --global user.email "github-actions@github.com" git add emp/values.yaml git commit -m "Update image tag to ${{ github.run_number }} [skip ci]" || true git push
     
     Deploy_Helm:
-      needs: Image_Build_and_Push
+      needs: Image_Build_and_Push_to_Registry
       runs-on: ubuntu-latest
 
       steps:
