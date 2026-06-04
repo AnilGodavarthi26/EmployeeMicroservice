@@ -78,24 +78,34 @@ jobs:
                 exit-code: '0' # Specifies the exit code that the Trivy action should return if vulnerabilities are found, allowing the workflow to continue even if vulnerabilities are detected (e.g., exit code 0 means the workflow will not fail due to vulnerabilities).
                 ignore-unfixed: true # Option to ignore vulnerabilities that do not have a fix available, allowing the workflow to focus on actionable vulnerabilities.
                 vuln-type: 'os,library' # Specifies the types of vulnerabilities to scan for, in this case, both operating system and library vulnerabilities will be included in the scan.
+            - name: Update values.yaml 
+              run: | 
+                sed -i "s/tag:.*/tag: ${{ github.run_number }}/" emp/values.yaml 
+            - name: Commit values.yaml 
+              run: | 
+                git config --global user.name "github-actions" git config --global user.email "github-actions@github.com" git add emp/values.yaml git commit -m "Update image tag to ${{ github.run_number }} [skip ci]" || true git push
     
     Deploy_Helm:
-        runs-on: ubuntu-latest
-        needs: [Image_Build_and_Push_to_Registry]
-        steps:
-          - uses: actions/checkout@v6
+      needs: Image_Build_and_Push
+      runs-on: ubuntu-latest
 
-          - name: Create Kind Cluster
-            uses: helm/kind-action@v1
+      steps:
+        - uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
 
-          - name: Install Helm
-            uses: azure/setup-helm@v4
+        - name: Install Helm
+          uses: azure/setup-helm@v4
 
-          - name: Deploy Chart
-            run: |
-              helm install employee ./emp
+        - name: Create Kind Cluster
+          uses: helm/kind-action@v1
 
-          - name: Verify
-            run: |
-              kubectl get pods
-              kubectl get svc
+        - name: Deploy Chart
+          run: |
+            helm upgrade --install employee ./emp
+
+        - name: Verify Release
+          run: |
+            helm list
+            kubectl get pods
+            kubectl get svc
