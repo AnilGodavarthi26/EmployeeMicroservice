@@ -83,7 +83,7 @@ jobs:
                 sed -i "s/tag:.*/tag: ${{ github.run_number }}/" emp/values.yaml 
             - name: Commit values.yaml 
               run: | 
-                git config --global user.name "github-actions" git config --global user.email "github-actions@github.com" git add emp/values.yaml git commit -m "Update image tag to ${{ github.run_number }} [skip ci]" || true git push
+                git config --global user.name "AnilGodavarthi26" git config --global user.email "anilkumargodavarthi26@gmail.com" git add emp/values.yaml git commit -m "Update image tag to ${{ github.run_number }} [skip ci]" || true git push
     
     Deploy_Helm:
       needs: Image_Build_and_Push_to_Registry
