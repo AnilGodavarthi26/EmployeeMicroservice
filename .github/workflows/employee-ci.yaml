@@ -83,29 +83,4 @@ jobs:
                 sed -i "s/tag:.*/tag: ${{ github.run_number }}/" emp/values.yaml 
             - name: Commit values.yaml 
               run: | 
-                git config --global user.name "AnilGodavarthi26" git config --global user.email "anilkumargodavarthi26@gmail.com" git add emp/values.yaml git commit -m "Update image tag to ${{ github.run_number }} [skip ci]" || true git push
-    
-    Deploy_Helm:
-      needs: Image_Build_and_Push_to_Registry
-      runs-on: ubuntu-latest
-
-      steps:
-        - uses: actions/checkout@v4
-          with:
-            fetch-depth: 0
-
-        - name: Install Helm
-          uses: azure/setup-helm@v4
-
-        - name: Create Kind Cluster
-          uses: helm/kind-action@v1
-
-        - name: Deploy Chart
-          run: |
-            helm upgrade --install employee ./emp
-
-        - name: Verify Release
-          run: |
-            helm list
-            kubectl get pods
-            kubectl get svc
+                git config --global user.name "Anil" git config --global user.email "anilkumargodavarthi136@gmail.com" git add emp/values.yaml git commit -m "Update image tag to ${{ github.run_number }} [skip ci]" || true git push
